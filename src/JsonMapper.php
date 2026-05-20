@@ -21,18 +21,14 @@ class JsonMapper
     /**
      * Throw an exception when JSON data contain a property
      * that is not defined in the PHP class
-     *
-     * @var boolean
      */
-    public $bExceptionOnUndefinedProperty = false;
+    public bool $bExceptionOnUndefinedProperty = false;
 
     /**
      * Throw an exception if the JSON data miss a property
      * that is marked with @required in the PHP class
-     *
-     * @var boolean
      */
-    public $bExceptionOnMissingData = false;
+    public bool $bExceptionOnMissingData = false;
 
     /**
      * If the types of map() parameters shall be checked.
@@ -40,57 +36,43 @@ class JsonMapper
      * You have to disable it if you're using the json_decode "assoc" parameter.
      *
      *     json_decode($str, false)
-     *
-     * @var boolean
      */
-    public $bEnforceMapType = true;
+    public bool $bEnforceMapType = true;
 
     /**
      * Throw an exception when an object is expected but the JSON contains
      * a non-object type.
-     *
-     * @var boolean
      */
-    public $bStrictObjectTypeChecking = true;
+    public bool $bStrictObjectTypeChecking = true;
 
     /**
      * Throw an exception, if null value is found
      * but the type of attribute does not allow nulls.
-     *
-     * @var boolean
      */
-    public $bStrictNullTypes = true;
+    public bool $bStrictNullTypes = true;
 
     /**
      * Throw an exception if null value is found in an array
      * but the type of attribute does not allow nulls.
-     *
-     * @var boolean
      */
-    public $bStrictNullTypesInArrays = true;
+    public bool $bStrictNullTypesInArrays = true;
 
     /**
      * Allow mapping of private and protected properties.
-     *
-     * @var boolean
      */
-    public $bIgnoreVisibility = false;
+    public bool $bIgnoreVisibility = false;
 
     /**
      * Remove attributes that were not passed in JSON,
      * to avoid confusion between them and NULL values.
-     *
-     * @var boolean
      */
-    public $bRemoveUndefinedAttributes = false;
+    public bool $bRemoveUndefinedAttributes = false;
 
     /**
      * Override class names that JsonMapper uses to create objects.
      * Useful when your setter methods accept abstract classes or interfaces.
-     *
-     * @var array
      */
-    public $classMap = array();
+    public array $classMap = [];
 
     /**
      * Callback used when an undefined property is found.
@@ -109,26 +91,20 @@ class JsonMapper
     /**
      * Runtime cache for inspected classes. This is particularly effective if
      * mapArray() is called with a large number of objects
-     *
-     * @var array property inspection result cache
      */
-    protected $arInspectedClasses = array();
+    protected array $arInspectedClasses = [];
 
     /**
      * Method to call on each object after deserialization is done.
      *
      * Is only called if it exists on the object.
-     *
-     * @var string|null
      */
-    public $postMappingMethod = null;
+    public ?string $postMappingMethod = null;
 
     /**
      * Optional arguments that are passed to the post mapping method
-     *
-     * @var array
      */
-    public $postMappingMethodArguments = array();
+    public array $postMappingMethodArguments = [];
 
     /**
      * Map data all data in $json into the given $object instance.
