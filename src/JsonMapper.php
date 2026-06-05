@@ -343,7 +343,7 @@ class JsonMapper
      * @param $type  Type name (simple type or class name)
      * @param $strNs Base namespace that gets prepended to the type name
      *
-     * @return Fully-qualified type name with namespace
+     * @return ?string Fully-qualified type name with namespace
      */
     protected function getFullNamespace(?string $type, string $strNs): ?string
     {
@@ -746,7 +746,7 @@ class JsonMapper
      *
      * @param $type type name from gettype()
      *
-     * @return boole True if it is a simple PHP type
+     * @return bool True if it is a simple PHP type
      *
      * @see isFlatType()
      */
