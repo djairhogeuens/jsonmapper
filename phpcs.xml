@@ -7,6 +7,9 @@
         <exclude name="PEAR.Commenting.FileComment.Missing"/>
         <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag"/>
         <exclude name="PEAR.Commenting.FunctionComment.MissingReturn"/>
+
+        <!-- https://github.com/PHPCSStandards/PHP_CodeSniffer/issues/1433 -->
+        <exclude name="Generic.Commenting.DocComment.TagValueIndent"/>
     </rule>
     <rule ref="Generic.Files.LineLength">
         <properties>
