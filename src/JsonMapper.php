@@ -71,6 +71,8 @@ class JsonMapper
     /**
      * Override class names that JsonMapper uses to create objects.
      * Useful when your setter methods accept abstract classes or interfaces.
+     *
+     * @var string[]
      */
     public array $classMap = [];
 
@@ -91,6 +93,13 @@ class JsonMapper
     /**
      * Runtime cache for inspected classes. This is particularly effective if
      * mapArray() is called with a large number of objects
+     *
+     * @var array{
+     *        0: bool,
+     *        1: ReflectionMethod|ReflectionProperty|null,
+     *        2: string|null,
+     *        3: bool
+     *      }[][]
      */
     protected array $arInspectedClasses = [];
 
@@ -103,13 +112,15 @@ class JsonMapper
 
     /**
      * Optional arguments that are passed to the post mapping method
+     *
+     * @var mixed[]
      */
     public array $postMappingMethodArguments = [];
 
     /**
      * Map data all data in $json into the given $object instance.
      *
-     * @param object|array        $json   JSON object structure from json_decode()
+     * @param object|mixed[]      $json   JSON object structure from json_decode()
      * @param object|class-string $object Object to map $json data into
      *
      * @return mixed Mapped object is returned.
@@ -362,8 +373,8 @@ class JsonMapper
     /**
      * Check required properties exist in json
      *
-     * @param $providedProperties Array with json properties
-     * @param $rc                 Reflection class to check
+     * @param mixed[] $providedProperties Array with json properties
+     * @param         $rc                 Reflection class to check
      *
      * @throws JsonMapper_Exception
      */
@@ -391,8 +402,8 @@ class JsonMapper
      * This is to avoid confusion between those that were actually passed
      * as NULL, and those that weren't provided at all.
      *
-     * @param $object             Object to remove properties from
-     * @param $providedProperties Array with JSON properties
+     * @param         $object             Object to remove properties from
+     * @param mixed[] $providedProperties Array with JSON properties
      */
     protected function removeUndefinedAttributes(object $object, array $providedProperties): void
     {
@@ -406,16 +417,16 @@ class JsonMapper
     /**
      * Map an array
      *
-     * @param $json       JSON array structure from json_decode()
-     * @param $array      Array or ArrayObject that gets filled with
-     *                    data from $json
-     * @param $class      Class name for children objects.
-     *                    All children will get mapped onto this type.
-     *                    Supports class names and simple types
-     *                    like "string" and nullability "string|null".
-     *                    Pass "null" to not convert any values
-     * @param $parent_key Defines the key this array belongs to
-     *                    in order to aid debugging.
+     * @param mixed[]|object $json       JSON array structure from json_decode()
+     * @param                $array      Array or ArrayObject that gets filled with
+     *                                   data from $json
+     * @param                $class      Class name for children objects.
+     *                                   All children will get mapped onto this type.
+     *                                   Supports class names and simple types
+     *                                   like "string" and nullability "string|null".
+     *                                   Pass "null" to not convert any values
+     * @param                $parent_key Defines the key this array belongs to
+     *                                   in order to aid debugging.
      *
      * @return mixed Mapped $array is returned
      */
@@ -495,7 +506,13 @@ class JsonMapper
      * @param $rc   Reflection class to check
      * @param $name Property name
      *
-     * @return array First value: if the property exists
+     * @return array{
+     *           0: bool,
+     *           1: ReflectionMethod|ReflectionProperty|null,
+     *           2: string|null,
+     *           3: bool
+     *         }
+     *               First value: if the property exists
      *               Second value: the accessor to use (
      *                 ReflectionMethod or ReflectionProperty, or null)
      *               Third value: type of the property
@@ -882,6 +899,7 @@ class JsonMapper
                 function (ReflectionNamedType $type) {
                     return ($type->isBuiltin() ? '' : '\\') . $type->getName();
                 },
+                /* @phpstan-ignore method.notFound */
                 $type->getTypes()
             )
         );
@@ -892,7 +910,7 @@ class JsonMapper
      *
      * @param $docblock Full method docblock
      *
-     * @return array Array of arrays.
+     * @return string[][] Array of arrays.
      *               Key is the "@"-name like "param",
      *               each value is an array of the rest of the @-lines
      */
@@ -918,11 +936,11 @@ class JsonMapper
     /**
      * Log a message to the $logger object
      *
-     * @param $level   Logging level
-     * @param $message Text to log
-     * @param $context Additional information
+     * @param         $level   Logging level
+     * @param         $message Text to log
+     * @param mixed[] $context Additional information
      */
-    protected function log(string $level, string $message, array $context = array()): void
+    protected function log(string $level, string $message, array $context = []): void
     {
         if ($this->logger) {
             $this->logger->log($level, $message, $context);

@@ -18,7 +18,7 @@ class JsonMapperTest_Logger
      * @param string $message Text to log
      * @param array  $context Additional information
      *
-     * @return null
+     * @return void
      */
     public function log($level, $message, array $context = array())
     {
